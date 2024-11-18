@@ -15,7 +15,7 @@ sudo apt install build-essential libssl-dev libffi-dev python3-dev bison flex gi
 
 
 #Pull all necessary tools
-cd  /home/mustafashaik/Desktop/fpga
+cd  /home/fpga
 #Need to check if pygmy-sdk can be reduced by keeping only the basic hardware
 #components.
 git clone --recursive https://github.com/optimuslogic/pygmy-dev
@@ -28,9 +28,9 @@ export  INSTALL_DIR=/home/fpga/symbiflow
 #Download and extract symbiflow
 https://iith-my.sharepoint.com/:u:/g/personal/gadepall_ee_iith_ac_in/Ebot5QHEYXBAo-7n4hnvJu0B8vMrTIdj_COHJC2cmDY1ww?e=bqDxHI
 
-cp arch.tar.gz /home/mustafashaik/Desktop/fpga/arch.tar.gz
+cp arch.tar.gz /home/fpga/arch.tar.gz
 
-tar -C $INSTALL_DIR  -xvf /home/mustafashaik/Desktop/fpga/arch.tar.gz
+tar -C $INSTALL_DIR  -xvf /home/fpga/arch.tar.gz
 
 export PATH="$INSTALL_DIR/quicklogic-arch-defs/bin:$INSTALL_DIR/quicklogic-arch-defs/bin/python3:$PATH"
 
@@ -62,8 +62,8 @@ cd /home/fpga/pygmy-dev/tools/vtr-verilog-to-routing
 make -j4
 cd /home/fpga
 
-cp /home/mustafashaik/Desktop/fpga/pygmy-dev/tools/vtr-verilog-to-routing/build/vpr/vpr $INSTALL_DIR/bin
-cp /home/mustafashaik/Desktop/fpga/pygmy-dev/tools/vtr-verilog-to-routing/build/utils/fasm/genfasm $INSTALL_DIR/bin
+cp /home/fpga/pygmy-dev/tools/vtr-verilog-to-routing/build/vpr/vpr $INSTALL_DIR/bin
+cp /home/fpga/pygmy-dev/tools/vtr-verilog-to-routing/build/utils/fasm/genfasm $INSTALL_DIR/bin
 
 #add path to .bashrc
 nvim ~/.bashrc
