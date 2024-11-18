@@ -1,8 +1,6 @@
-#this supports in only Laptop
-
 proot-distro login ubuntu
 
-cd data/data/com.termux/files/home/fpga
+cd /data/data/com.termux/files/home/fpga
 
 apt update 
 apt upgrade
