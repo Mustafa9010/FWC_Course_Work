@@ -1,14 +1,9 @@
-cd /home/yaswanth/Desktop/fpga
+#this supports in only Laptop
 
+proot-distro login ubuntu
 
+cd data/data/com.termux/files/home/fpga
 
-
-
-
-
-
-
-pdata/data/com.termux/files-distro login ubuntu-20.04
 apt update 
 apt upgrade
 
@@ -27,8 +22,8 @@ git clone --recursive https://github.com/optimuslogic/pygmy-dev
 
 
 #Create directory for building the toolchain
-mkdir -p /home/mustafashaik/Desktop/fpga/symbiflow
-export  INSTALL_DIR=/home/mustafashaik/Desktop/fpga/symbiflow
+mkdir -p /home/fpga/symbiflow
+export  INSTALL_DIR=/home/fpga/symbiflow
 
 #Download and extract symbiflow
 https://iith-my.sharepoint.com/:u:/g/personal/gadepall_ee_iith_ac_in/Ebot5QHEYXBAo-7n4hnvJu0B8vMrTIdj_COHJC2cmDY1ww?e=bqDxHI
@@ -40,7 +35,7 @@ tar -C $INSTALL_DIR  -xvf /home/mustafashaik/Desktop/fpga/arch.tar.gz
 export PATH="$INSTALL_DIR/quicklogic-arch-defs/bin:$INSTALL_DIR/quicklogic-arch-defs/bin/python3:$PATH"
 
 #Install fasm 
-cd /home/mustafashaik/Desktop/fpga/pygmy-dev/tools/quicklogic-fasm
+cd /home/fpga/pygmy-dev/tools/quicklogic-fasm
 nvim requirements.txt
 #modify the lines so that they look like
 -e git+https://github.com/symbiflow/fasm.git#egg=fasm
@@ -48,24 +43,24 @@ nvim requirements.txt
 
 sudo pip3 install -r requirements.txt
 sudo python3 setup.py install
-cd /home/mustafashaik/Desktop/fpga
+cd /home/fpga
 
 #Install yosys
-cd /home/mustafashaik/Desktop/fpga/pygmy-dev/tools/quicklogic-yosys
+cd /home/fpga/pygmy-dev/tools/quicklogic-yosys
 make config-gcc
 make -j4 install PREFIX=$INSTALL_DIR
-cd /home/mustafashaik/Desktop/fpga
+cd /home/fpga
 
 #install yosys-symbiflow
-cd /home/mustafashaik/Desktop/fpga/pygmy-dev/tools/yosys-symbiflow-plugins
+cd /home/fpga/pygmy-dev/tools/yosys-symbiflow-plugins
 export PATH=$INSTALL_DIR/bin:$PATH
 make -j4 install
-cd /home/mustafashaik/Desktop/fpga
+cd /home/fpga
 
 #install vtr
-cd /home/mustafashaik/Desktop/fpga/pygmy-dev/tools/vtr-verilog-to-routing
+cd /home/fpga/pygmy-dev/tools/vtr-verilog-to-routing
 make -j4
-cd /home/mustafashaik/Desktop/fpga
+cd /home/fpga
 
 cp /home/mustafashaik/Desktop/fpga/pygmy-dev/tools/vtr-verilog-to-routing/build/vpr/vpr $INSTALL_DIR/bin
 cp /home/mustafashaik/Desktop/fpga/pygmy-dev/tools/vtr-verilog-to-routing/build/utils/fasm/genfasm $INSTALL_DIR/bin
@@ -73,13 +68,13 @@ cp /home/mustafashaik/Desktop/fpga/pygmy-dev/tools/vtr-verilog-to-routing/build/
 #add path to .bashrc
 nvim ~/.bashrc
 #paste the following 3 lines at the end of the file
-export  INSTALL_DIR=/home/mustafashaik/Desktop/fpga/symbiflow
+export  INSTALL_DIR=/home/fpga/symbiflow
 export PATH="$INSTALL_DIR/quicklogic-arch-defs/bin:$INSTALL_DIR/quicklogic-arch-defs/bin/python3:$PATH"
-export PATH=/home/mustafashaik/Desktop/fpga/symbiflow/bin:$PATH
+export PATH=/home/fpga/symbiflow/bin:$PATH
 #Ctrl+X save and exit.  reboot for the settings to be updated.
 #reboot
 #After login
-cd /home/mustafashaik/Desktop/fpga
+cd /home/fpga
 
 #Check the executables on Path
 vpr -h
@@ -93,16 +88,16 @@ ql_symbiflow -compile -d ql-eos-s3 -P pd64 -v counter_16bit.v -t top -p chandala
 #top.bin must be generated successfully 
 
 #Blink program
-cd /home/mustafashaik/Desktop/fpga
+cd /home/fpga
 mkdir fpga-examples
 cd fpga-examples
 svn co https://github.com/gadepall/vaman/trunk/fpga/setup/codes/blink
 
-ql_symbiflow -compile -src /home/mustafashaik/Desktop/fpga/fpga-examples/blink -d ql-eos-s3 -P PU64 -v helloworldfpga.v -t helloworldfpga -p quickfeather.pcf -dump binary
-#helloworldfpga.bin must be generated successfully in /home/mustafashaik/Desktop/fpga/fpga-examples/blink
+ql_symbiflow -compile -src /home/fpga/fpga-examples/blink -d ql-eos-s3 -P PU64 -v helloworldfpga.v -t helloworldfpga -p quickfeather.pcf -dump binary
+#helloworldfpga.bin must be generated successfully in /home/fpga/fpga-examples/blink
 
 #Transfer .bin file to RPI
-scp /home/mustafashaik/Desktop/fpga/fpga-examples/blink/helloworldfpga.bin pi@192.168.0.114:
+scp /home/fpga/fpga-examples/blink/helloworldfpga.bin pi@192.168.0.114:
 #Suitably modify the above ip address
 
 #On RPi
@@ -115,10 +110,6 @@ sudo reboot
 python3 /home/pi/TinyFPGA-Programmer-Application/tinyfpga-programmer-gui.py --port /dev/ttyACM0 --appfpga /home/pi/helloworldfpga.bin --mode fpga
 
 #End FPGA hello world
-
-
-
-
 
 
 /*Program for blinking LED
@@ -158,6 +149,3 @@ assign redled = ledstate; //If you want to change led colour to red,
 assign greenled=ledstate;
 endmodule
 //end of the module
-
-
-
